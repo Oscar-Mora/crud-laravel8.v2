@@ -13,24 +13,30 @@ class ContactController extends Controller
      
 
     public function store(Request $request){
-        return Contact::create($request->form);
+        return Contact::updateOrCreate(['id' => $request->form['id']], $request->form);
     }
 
 
 
     public function edit (Request $request, $contact_id){   
-        
+        return Contact::find($contact_id);
     }
 
 
-    public function update (Request $request){   
-        
+    public function show (Request $request, $contact_id){   
       
-        
+        $contact = Contact::find($contact_id);
+        return $contact;
+        // dd($contact);
 
     }
 
     public function destroy(Request $request, $contact_id){
+        
+        $contact = Contact::find($contact_id);
+        
+        $deletion = $contact->delete();
+        return Contact::orderBy('id', 'desc')->get();
 
        
         
